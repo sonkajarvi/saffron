@@ -1,0 +1,105 @@
+; Saffron ABNF grammar
+; --------------------
+
+saffron = maybe-ws [ key ws value *( ws key ws value ) ] maybe-ws
+
+; Keys and values
+; ---------------
+
+key = key-start *key-char
+
+key-start =  %x24               ; $
+key-start =/ %x2d               ; -
+key-start =/ %x5f               ; _
+key-start =/ ALPHA
+
+key-char =  key-start
+key-char =/ DIGIT
+
+value =  boolean
+value =/ number
+value =/ string
+value =/ array
+value =/ map
+
+; Whitespace
+; ----------
+
+maybe-ws = [ ws ]
+ws       = 1*( ws-char / comment )
+
+ws-char =  %x20                 ; space
+ws-char =/ %x09                 ; \t
+ws-char =/ %x0a                 ; \n
+ws-char =/ %x0d                 ; \r
+
+; Comments
+; --------
+
+comment = single-line / multi-line
+
+single-line  = single-start *comment-char single-end
+single-start = %x2f.2f          ; //
+single-end   =  %x0a            ; \n
+single-end   =/ %x0d.0a         ; \r\n
+
+multi-line  = multi-start *comment-char multi-end
+multi-start = %x2f.2a           ; /*
+multi-end   = %x2a.2f           ; */
+
+comment-char =  ws-char
+comment-char =/ %x20-10ffff
+
+; Booleans
+; --------
+
+boolean =  %x74.72.75.65        ; true
+boolean =/ %x66.61.6c.73.65     ; false
+
+; Numbers
+; -------
+
+number = [ minus ] int [ frac ] [ exp ] [ f ]
+
+int = %x30                      ; 0
+int =/ non-zero *DIGIT
+
+frac = %x2e 1*DIGIT             ; .
+exp  = e [ minus ] 1*DIGIT
+
+minus    = %x2d                 ; -
+non-zero = %x31-39              ; 1 - 9
+e = %x45 / %x65                 ; E / e
+f = %x46 / %x66                 ; F / f
+
+; Strings
+; -------
+
+string = %x22 *char %x22        ; "
+char   = unescaped / escaped
+
+unescaped = %x20-21 / %x23-5b / %x5d-10ffff
+escaped   = %x5c escape-char    ; \
+
+escape-char =  %x22             ; "
+escape-char =/ %x5c             ; \
+escape-char =/ %x6e             ; n
+escape-char =/ %x72             ; r
+escape-char =/ %x74             ; t
+escape-char =/ %x75 4HEXDIG     ; uXXXX
+
+; Arrays
+; ------
+
+array = array-start [ value *( ws value ) ] array-end
+
+array-start = %x5b maybe-ws     ; [
+array-end   = maybe-ws %x5d     ; ]
+
+; Maps
+; ----
+
+map = map-start [ key ws value *( ws key ws value ) ] map-end
+
+map-start = %x7b maybe-ws       ; {
+map-end   = maybe-ws %x7d       ; }
