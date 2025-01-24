@@ -1,0 +1,84 @@
+saffron = ws *( key ws value ws )
+
+ws = *( %x20 /              ; Space
+        %x09 /              ; \t
+        %x0a /              ; \n
+        %x0d )              ; \r
+
+key = key-start *key-part
+
+key-start = %x5f /          ; _
+            %x2f /          ; -
+            ALPHA
+
+key-part = %x5f /           ; _
+           %x2f /           ; -
+           ALPHA /
+           DIGIT
+
+value = %s"true" /
+        %s"false" /
+        map /
+        array /
+        string /
+        float /
+        int
+
+map = map-start [ key ws value *( ws key ws value ) ] map-end
+
+map-start = ws %x7b ws      ; {
+map-end = ws %x7d ws        ; }
+
+array = array-start [ value *( ws value ) ] array-end
+
+array-start = ws %x5b ws    ; [
+array-end = ws %x5d ws      ; ]
+
+string = %x22 *char %x22    ; "
+
+char = unescaped / escaped
+
+unescaped = %x20-21 / %x23-10ffff
+
+escaped = %x5c (            ; \
+            %x22 /          ; "
+            %x6e /          ; n
+            %x72 /          ; r
+            %x74 /          ; t
+            %x75 4HEXDIG )  ; u
+
+float = float-start float-part float-end
+
+float-start = [ minus ] zero / ( one-nine *DIGIT )
+
+minus = %x2d                ; -
+zero = %x30                 ; 0
+one-nine = %x31-39          ; 1-9
+
+float-part = %x2e 1*DIGIT   ; .
+
+float-end = [ exp / %x66 ]  ; f
+
+exp = e [ minus / plus ] 1*DIGIT
+
+e = ( %x65 / %x45 )         ; e E
+plus = %x2b                 ; +
+
+int = binary / octal / hex / decimal
+
+binary = [ minus ]
+         zero
+         %x62               ; b
+         *( %x30-31 )       ; 0-1
+
+octal = [ minus ]
+        zero
+        %x6f                ; o
+        *( %x30-37 )        ; 0-7
+
+hex = [ minus ]
+      zero
+      %x78                  ; x
+      *HEXDIG
+
+decimal = [ minus ] zero / ( one-nine *DIGIT )
