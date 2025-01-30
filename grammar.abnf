@@ -3,7 +3,17 @@ saffron = ws *( key ws value ws )
 ws = *( %x20 /              ; Space
         %x09 /              ; \t
         %x0a /              ; \n
-        %x0d )              ; \r
+        %x0d /              ; \r
+        comment )
+
+comment = comment-start *comment-part comment-end
+
+comment-start = ( %x2f %x2f ) /     ; //
+                %x23 /              ; #
+                %x3b /              ; ;
+
+comment-part = %x20-10ffff
+comment-end = %x0a          ; \n
 
 key = key-start *key-part
 
