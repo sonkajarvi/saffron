@@ -8,10 +8,11 @@ ws = *( %x20 /              ; Space
 key = key-start *key-part
 
 key-start = %x5f /          ; _
-            %x2f /          ; -
+            %x24 /          ; $
             ALPHA
 
 key-part = %x5f /           ; _
+           %x24 /           ; $
            %x2f /           ; -
            ALPHA /
            DIGIT
