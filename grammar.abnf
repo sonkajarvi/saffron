@@ -13,7 +13,7 @@ key-start = %x5f /          ; _
 
 key-part = %x5f /           ; _
            %x24 /           ; $
-           %x2f /           ; -
+           %x2d /           ; -
            ALPHA /
            DIGIT
 
