@@ -1,7 +1,7 @@
 ; Saffron ABNF grammar
 ; --------------------
 
-saffron = maybe-ws [ key ws value *( ws key ws value ) ] maybe-ws
+saffron = [ ws ] [ key ws value *( ws key ws value ) ] [ ws ]
 
 ; Keys and values
 ; ---------------
@@ -23,8 +23,7 @@ value =/ map
 ; Whitespace
 ; ----------
 
-maybe-ws = [ ws ]
-ws       = 1*( ws-char / comment )
+ws = 1*( ws-char / comment )
 
 ws-char =  %x20                 ; space
 ws-char =/ %x09                 ; \t
@@ -91,13 +90,13 @@ escape-char =/ %x75 4HEXDIG     ; uXXXX
 
 array = array-start [ value *( ws value ) ] array-end
 
-array-start = %x5b maybe-ws     ; [
-array-end   = maybe-ws %x5d     ; ]
+array-start = %x5b [ ws ]       ; [
+array-end   = [ ws ] %x5d       ; ]
 
 ; Maps
 ; ----
 
 map = map-start [ key ws value *( ws key ws value ) ] map-end
 
-map-start = %x7b maybe-ws       ; {
-map-end   = maybe-ws %x7d       ; }
+map-start = %x7b [ ws ]         ; {
+map-end   = [ ws ] %x7d         ; }
