@@ -8,9 +8,9 @@ saffron = [ ws ] [ key ws value *( ws key ws value ) ] [ ws ]
 
 key = 1*key-char
 
-key-char =  %x24               ; $
-key-char =/ %x2d               ; -
-key-char =/ %x5f               ; _
+key-char =  %x24                ; $
+key-char =/ %x2d                ; -
+key-char =/ %x5f                ; _
 key-char =/ ALPHA
 key-char =/ DIGIT
 
@@ -25,10 +25,10 @@ value =/ map
 
 ws = 1*( ws-char / comment )
 
-ws-char =  %x20                 ; space
-ws-char =/ %x09                 ; \t
+ws-char =  %x09                 ; \t
 ws-char =/ %x0a                 ; \n
 ws-char =/ %x0d                 ; \r
+ws-char =/ %x20                 ; Space
 
 ; Comments
 ; --------
