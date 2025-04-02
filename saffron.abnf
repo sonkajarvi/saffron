@@ -33,18 +33,10 @@ ws-char =/ %x0d                 ; \r
 ; Comments
 ; --------
 
-comment = single-line / multi-line
+comment = comment-start *comment-char
 
-single-line  = single-start *comment-char single-end
-single-start = %x2f.2f          ; //
-single-end   =  %x0a            ; \n
-single-end   =/ %x0d.0a         ; \r\n
-
-multi-line  = multi-start *comment-char multi-end
-multi-start = %x2f.2a           ; /*
-multi-end   = %x2a.2f           ; */
-
-comment-char =  ws-char
+comment-start = %x23            ; #
+comment-char =  %x09            ; \t
 comment-char =/ %x20-10ffff
 
 ; Booleans
