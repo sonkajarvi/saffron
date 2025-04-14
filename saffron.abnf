@@ -48,17 +48,16 @@ boolean =/ %x66.61.6c.73.65     ; false
 ; Numbers
 ; -------
 
-number = [ minus ] int [ frac ] [ exp ] [ f ]
+number = [ minus ] int [ frac ]
 
-int = %x30                      ; 0
+int =  zero
 int =/ non-zero *DIGIT
-
-frac = %x2e 1*DIGIT             ; .
-exp  = e [ minus ] 1*DIGIT
+frac = period 1*DIGIT [ f ]
 
 minus    = %x2d                 ; -
+period   = %x2e                 ; .
+zero     = %x30                 ; 0
 non-zero = %x31-39              ; 1 - 9
-e = %x45 / %x65                 ; E / e
 f = %x46 / %x66                 ; F / f
 
 ; Strings
