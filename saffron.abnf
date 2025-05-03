@@ -7,14 +7,13 @@ saffron = [ ws ] [ key ws value *( ws key ws value ) ] [ ws ]
 ; ---------------
 
 key = 1*key-char
-
-key-char =  %x24                ; $
+key-char = %x24                 ; $
 key-char =/ %x2d                ; -
 key-char =/ %x5f                ; _
 key-char =/ ALPHA
 key-char =/ DIGIT
 
-value =  boolean
+value = boolean
 value =/ number
 value =/ string
 value =/ array
@@ -24,36 +23,32 @@ value =/ map
 ; -----------------------
 
 ws = 1*( ws-char / comment )
-
-ws-char =  %x09                 ; \t
+ws-char = %x09                  ; \t
 ws-char =/ %x0a                 ; \n
 ws-char =/ %x0d                 ; \r
 ws-char =/ %x20                 ; Space
 
 comment = comment-start *comment-char
-
 comment-start = %x23            ; #
-comment-char =  %x09            ; \t
+comment-char = %x09             ; \t
 comment-char =/ %x20-10ffff
 
 ; Booleans
 ; --------
 
-boolean =  %x74.72.75.65        ; true
+boolean = %x74.72.75.65         ; true
 boolean =/ %x66.61.6c.73.65     ; false
 
 ; Numbers
 ; -------
 
 number = [ minus ] int [ frac ]
-
-int =  zero
-int =/ non-zero *DIGIT
+int = zero / ( non-zero *DIGIT )
 frac = period 1*DIGIT [ f ]
 
-minus    = %x2d                 ; -
-period   = %x2e                 ; .
-zero     = %x30                 ; 0
+minus = %x2d                    ; -
+period = %x2e                   ; .
+zero = %x30                     ; 0
 non-zero = %x31-39              ; 1 - 9
 f = %x46 / %x66                 ; F / f
 
@@ -61,12 +56,12 @@ f = %x46 / %x66                 ; F / f
 ; -------
 
 string = %x22 *char %x22        ; "
-char   = unescaped / escaped
+char = unescaped / escaped
 
 unescaped = %x20-21 / %x23-5b / %x5d-10ffff
-escaped   = %x5c escape-char    ; \
+escaped = %x5c escape-char      ; \
 
-escape-char =  %x22             ; "
+escape-char = %x22              ; "
 escape-char =/ %x5c             ; \
 escape-char =/ %x6e             ; n
 escape-char =/ %x72             ; r
@@ -76,14 +71,12 @@ escape-char =/ %x74             ; t
 ; ------
 
 array = array-start [ value *( ws value ) ] array-end
-
 array-start = %x5b [ ws ]       ; [
-array-end   = [ ws ] %x5d       ; ]
+array-end = [ ws ] %x5d         ; ]
 
 ; Maps
 ; ----
 
 map = map-start [ key ws value *( ws key ws value ) ] map-end
-
 map-start = %x7b [ ws ]         ; {
-map-end   = [ ws ] %x7d         ; }
+map-end = [ ws ] %x7d           ; }
