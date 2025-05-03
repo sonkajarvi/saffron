@@ -1,5 +1,5 @@
 ; Saffron ABNF grammar
-; --------------------
+; ====================
 
 saffron = [ ws ] [ key ws value *( ws key ws value ) ] [ ws ]
 
@@ -20,8 +20,8 @@ value =/ string
 value =/ array
 value =/ map
 
-; Whitespace
-; ----------
+; Whitespace and comments
+; -----------------------
 
 ws = 1*( ws-char / comment )
 
@@ -29,9 +29,6 @@ ws-char =  %x09                 ; \t
 ws-char =/ %x0a                 ; \n
 ws-char =/ %x0d                 ; \r
 ws-char =/ %x20                 ; Space
-
-; Comments
-; --------
 
 comment = comment-start *comment-char
 
