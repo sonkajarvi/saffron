@@ -71,7 +71,6 @@ escape-char =/ %x5c             ; \
 escape-char =/ %x6e             ; n
 escape-char =/ %x72             ; r
 escape-char =/ %x74             ; t
-escape-char =/ %x75 4HEXDIG     ; uXXXX
 
 ; Arrays
 ; ------
