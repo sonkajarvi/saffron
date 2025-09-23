@@ -1,12 +1,12 @@
 ; Saffron ABNF grammar
 ; ====================
 
-saffron = [ ws ] [ key ws value *( ws key ws value ) ] [ ws ]
+saffron = ws [ key-value ws ] *( comment / newline ws [ key-value ws ] )
 
 ; Key-value pair
 ; --------------
 
-key-value = key [ ws ] key-value-delim [ ws ] value
+key-value = key ws key-value-delim ws value
 
 key = 1*key-char
 key-char = %x24                 ; $
@@ -26,10 +26,10 @@ value =/ map
 ; Whitespace and comments
 ; -----------------------
 
-ws = 1*( ws-char / comment )
+newline = [ %x0d ] %x0a         ; \r \n
+
+ws = *ws-char
 ws-char = %x09                  ; \t
-ws-char =/ %x0a                 ; \n
-ws-char =/ %x0d                 ; \r
 ws-char =/ %x20                 ; Space
 
 comment = comment-start *comment-char
@@ -74,13 +74,13 @@ escape-char =/ %x74             ; t
 ; Arrays
 ; ------
 
-array = array-start [ value *( ws value ) ] array-end
-array-start = %x5b [ ws ]       ; [
-array-end = [ ws ] %x5d         ; ]
+array = array-start ws [ value ws ] *( [ comment ] newline ws [ value ws ] ) array-end
+array-start = %x5b              ; [
+array-end = %x5d                ; ]
 
 ; Maps
 ; ----
 
-map = map-start [ key ws value *( ws key ws value ) ] map-end
-map-start = %x7b [ ws ]         ; {
-map-end = [ ws ] %x7d           ; }
+map = map-start ws [ key-value ws ] *( [ comment ] newline ws [ key-value ws ] ) map-end
+map-start = %x7b                ; {
+map-end = %x7d                  ; }
