@@ -3,8 +3,10 @@
 
 saffron = [ ws ] [ key ws value *( ws key ws value ) ] [ ws ]
 
-; Keys and values
-; ---------------
+; Key-value pair
+; --------------
+
+key-value = key [ ws ] key-value-delim [ ws ] value
 
 key = 1*key-char
 key-char = %x24                 ; $
@@ -12,6 +14,8 @@ key-char =/ %x2d                ; -
 key-char =/ %x5f                ; _
 key-char =/ ALPHA
 key-char =/ DIGIT
+
+key-value-delim = %x3d          ; =
 
 value = boolean
 value =/ number
