@@ -6,7 +6,7 @@ saffron = ws [ key-value ws ] *( comment / newline ws [ key-value ws ] )
 ; Key-value pair
 ; --------------
 
-key-value = key ws key-value-delim ws value
+key-value = key ws ws-char ws value
 
 key = 1*key-char
 key-char = %x24                 ; $
@@ -14,8 +14,6 @@ key-char =/ %x2d                ; -
 key-char =/ %x5f                ; _
 key-char =/ ALPHA
 key-char =/ DIGIT
-
-key-value-delim = %x3d          ; =
 
 value = bool
 value =/ number
