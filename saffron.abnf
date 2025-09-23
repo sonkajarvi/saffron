@@ -1,7 +1,7 @@
 ; Saffron ABNF grammar
 ; ====================
 
-saffron = ws [ key-value ws ] *( comment / newline ws [ key-value ws ] )
+saffron = ws [ key-value ws ] [ comment ] *( newline ws [ key-value ws ] [ comment ] )
 
 ; Key-value pair
 ; --------------
@@ -57,8 +57,8 @@ f = %x46 / %x66                 ; F / f
 ; Strings
 ; -------
 
-string = %x22 *str-char %x22    ; "
-str-char = unescaped / escaped
+string = %x22 *string-char %x22    ; "
+string-char = unescaped / escaped
 
 unescaped = %x20-21 / %x23-5b / %x5d-10ffff
 escaped = %x5c escape-char      ; \
