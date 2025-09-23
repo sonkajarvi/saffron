@@ -67,9 +67,12 @@ escaped = %x5c escape-char      ; \
 
 escape-char = %x22              ; "
 escape-char =/ %x5c             ; \
+escape-char =/ %x62             ; b
+escape-char =/ %x66             ; f
 escape-char =/ %x6e             ; n
 escape-char =/ %x72             ; r
 escape-char =/ %x74             ; t
+escape-char =/ %x76             ; v
 
 ; Arrays
 ; ------
