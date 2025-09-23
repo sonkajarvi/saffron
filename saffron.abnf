@@ -17,10 +17,10 @@ key-char =/ DIGIT
 
 key-value-delim = %x3d          ; =
 
-value = boolean
+value = bool
 value =/ number
 value =/ string
-value =/ array
+value =/ vector
 value =/ map
 
 ; Whitespace and comments
@@ -40,8 +40,8 @@ comment-char =/ %x20-10ffff
 ; Booleans
 ; --------
 
-boolean = %x74.72.75.65         ; true
-boolean =/ %x66.61.6c.73.65     ; false
+bool = %x74.72.75.65            ; true
+bool =/ %x66.61.6c.73.65        ; false
 
 ; Numbers
 ; -------
@@ -59,8 +59,8 @@ f = %x46 / %x66                 ; F / f
 ; Strings
 ; -------
 
-string = %x22 *char %x22        ; "
-char = unescaped / escaped
+string = %x22 *str-char %x22    ; "
+str-char = unescaped / escaped
 
 unescaped = %x20-21 / %x23-5b / %x5d-10ffff
 escaped = %x5c escape-char      ; \
@@ -74,9 +74,9 @@ escape-char =/ %x74             ; t
 ; Arrays
 ; ------
 
-array = array-start ws [ value ws ] *( [ comment ] newline ws [ value ws ] ) array-end
-array-start = %x5b              ; [
-array-end = %x5d                ; ]
+vector = vec-start ws [ value ws ] *( [ comment ] newline ws [ value ws ] ) vec-end
+vec-start = %x5b                ; [
+vec-end = %x5d                  ; ]
 
 ; Maps
 ; ----
