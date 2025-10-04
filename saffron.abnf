@@ -3,15 +3,13 @@
 
 saffron = ws [ key-value ws ] [ comment ] *( newline ws [ key-value ws ] [ comment ] )
 
-; Key-value pair
-; --------------
+; Key-value pairs
+; ---------------
 
-key-value = key ws ws-char ws value
+key-value = key ws-char ws value
 
 key = 1*key-char
-key-char = %x24                 ; $
-key-char =/ %x2d                ; -
-key-char =/ %x5f                ; _
+key-char = %x5f                 ; _
 key-char =/ ALPHA
 key-char =/ DIGIT
 
@@ -72,12 +70,12 @@ escape-char =/ %x72             ; r
 escape-char =/ %x74             ; t
 escape-char =/ %x76             ; v
 
-; Arrays
-; ------
+; Vectors
+; -------
 
-vector = vec-start ws [ value ws ] *( [ comment ] newline ws [ value ws ] ) vec-end
-vec-start = %x5b                ; [
-vec-end = %x5d                  ; ]
+vector = vector-start ws [ value ws ] *( [ comment ] newline ws [ value ws ] ) vector-end
+vector-start = %x5b             ; [
+vector-end = %x5d               ; ]
 
 ; Maps
 ; ----
