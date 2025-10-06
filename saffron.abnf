@@ -8,7 +8,7 @@ saffron = ws [ key-value ws ] [ comment ] *( newline ws [ key-value ws ] [ comme
 
 key-value = key ws-char ws value
 
-key = key-start *key-char
+key = key-start *key-char / string
 key-start = %x5f                ; _
 key-start =/ ALPHA
 key-char = key-start
