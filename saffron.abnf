@@ -43,9 +43,11 @@ bool =/ %x66.61.6c.73.65        ; false
 ; Numbers
 ; -------
 
-number = [ minus ] int [ frac ]
-int = zero / ( non-zero *DIGIT )
+number = [ minus ] non-zero *DIGIT [ frac ]
+number =/ [ minus ] zero [ non-decimal ]
+
 frac = period 1*DIGIT [ f ]
+non-decimal = binary / octal / hex
 
 minus = %x2d                    ; -
 period = %x2e                   ; .
@@ -53,10 +55,16 @@ zero = %x30                     ; 0
 non-zero = %x31-39              ; 1 - 9
 f = %x46 / %x66                 ; F / f
 
+binary = %x62 1*binary-digit    ; b
+octal = %x6f 1*octal-digit      ; o
+hex = %x78 1*HEXDIG             ; x
+binary-digit = %x30-31          ; 0 - 1
+octal-digit = %x30-37           ; 0 - 7
+
 ; Strings
 ; -------
 
-string = %x22 *string-char %x22    ; "
+string = %x22 *string-char %x22 ; "
 string-char = unescaped / escaped
 
 unescaped = %x20-21 / %x23-5b / %x5d-10ffff
